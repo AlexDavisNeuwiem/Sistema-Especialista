@@ -1,7 +1,21 @@
-% Base de dados de sintomas e categorias de doenças
+/*
+DISCIPLINA:
+    - Inteligencia Artificial (INE5430)
+
+ALUNOS:
+    - Alex Davis Neuwiem da Silva (21202103)
+    - Luan Diniz Moraes (21204000)
+    - Pedro Nack Martins (21200081)
+
+PROFESSORA:
+    - Jerusa Marchi
+
+DOMINIOS MODELADOS:
+    - Sintomas das doencas respiratorias mais comuns
+    - Tratamentos para as doencas apresentadas
+*/
 
 % Base de dados de sintomas e categorias de doenças
-
 categoria_da_doenca(asma, cronica).
 categoria_da_doenca(asma, alergica). % Asma também pode ser considerada uma doença alérgica
 
