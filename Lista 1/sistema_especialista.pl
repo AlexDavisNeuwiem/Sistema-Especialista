@@ -15,9 +15,6 @@ DOMÍNIOS MODELADOS:
     - Tratamentos para as doenças apresentadas
 */
 
-% Biblioteca para auxiliar nas operações sobre listas
-:- use_module(library(lists)).
-
 % Base de sintomas associada às doenças
 sintomas_da_doenca('Asma', ['Tosse', 'Dor/Aperto no peito', 'Dificuldade para respirar', 'Chiado ao respirar']).
 sintomas_da_doenca('Enfisema Pulmonar', ['Tosse', 'Presença de Muco', 'Dor/Aperto no peito', 'Dificuldade para respirar', 'Chiado ao respirar', 'Cansaço', 'Perda de Peso']).
