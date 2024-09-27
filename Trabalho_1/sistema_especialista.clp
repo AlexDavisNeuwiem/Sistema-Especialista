@@ -15,19 +15,13 @@
 ;  - Tratamentos para as doenças apresentadas
 
 
-
 ; Doenças
 (deftemplate Doenca
    (slot doenca))
-   ; (slot Asma)
-   ; (slot Enfisema_Pulmonar)
-   ; (slot Bronquite)
-   ; (slot Pneumonia)
-   ; (slot Gripe_Influenza)
-   ; (slot Tuberculose)
-   ; (slot Fibrose_Pulmonar)
-   ; (slot Sinusite)
-   ; (slot Rinite)
+
+; Tratamentos
+(deftemplate Tratamento
+   (slot tratamento))
 
 ; Sintomas
 (deftemplate Sintoma
@@ -41,17 +35,6 @@
    (slot Cansaco)
    (slot Perda_de_Peso))
 
-; Tratamentos
-(deftemplate Tratamento
-   (slot tratamento))
-   ; (slot Antibiotico)
-   ; (slot Antialergico)
-   ; (slot Anti_Inflamatorio)
-   ; (slot Broncodilatador)
-   ; (slot Corticosteroide)
-   ; (slot Antiviral)
-   ; (slot Descongestionante)
-   ; (slot Anti_Histaminico))
 
 ; Regras para obter os Sintomas do Paciente
 (defrule ObterSintomaTosse
@@ -116,7 +99,6 @@
 	(printout t crlf "Você tem tido perda de peso? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
 	(assert (Sintoma (Perda_de_Peso ?resposta))))
-
 
 
 ; Regras para descobrir a possível doença
@@ -209,7 +191,6 @@
     (printout t crlf "Possível doença: Rinite" crlf))
 
 
-
 ; Regras para definir os tratamentos
 (defrule Antibiotico
 	(or  (Doenca(doenca bronquite)) 
@@ -275,6 +256,7 @@
 	(assert(Tratamento(tratamento descongestionante)))
 	(printout t "Tratamento: Descongestionante" crlf))
 
+; Título
 (defrule titulo
   (declare (salience 10))
   =>
