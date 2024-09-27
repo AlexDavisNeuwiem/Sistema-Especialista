@@ -1,242 +1,283 @@
-;; DISCIPLINA:
-;;	- Inteligência Artificial (INE5430)
+; DISCIPLINA:
+;  - Inteligência Artificial (INE5430)
 
-;; ALUNOS:
-;;	- Alex Davis Neuwiem da Silva (21202103)
-;;	- Luan Diniz Moraes (21204000)
-;;	- Pedro Nack Martins (21200081)
+; ALUNOS:
+;  - Alex Davis Neuwiem da Silva (21202103)
+;  - Luan Diniz Moraes (21204000)
+;  - Pedro Nack Martins (21200081)
 
-;; PROFESSORA:
-;;	- Jerusa Marchi
+; PROFESSORA:
+;  - Jerusa Marchi
 
-;; DOMÍNIOS MODELADOS:
-;;	- Sintomas das doenças respiratórias mais comuns
-;;	- Tratamentos para as doenças apresentadas
+; DOMÍNIOS MODELADOS:
+;  - Doenças respiratórias mais comuns
+;  - Sintomas das doenças apresentadas
+;  - Tratamentos para as doenças apresentadas
 
 
-(defclass Doenca (is-a USER)
-  (slot nome))
 
-(defclass Sintoma (is-a USER)
-  (slot descricao))
+; Doenças
+(deftemplate Doenca
+   (slot doenca))
+   ; (slot Asma)
+   ; (slot Enfisema_Pulmonar)
+   ; (slot Bronquite)
+   ; (slot Pneumonia)
+   ; (slot Gripe_Influenza)
+   ; (slot Tuberculose)
+   ; (slot Fibrose_Pulmonar)
+   ; (slot Sinusite)
+   ; (slot Rinite)
 
-(defclass Tratamento (is-a USER)
-  (slot descricao))
+; Sintomas
+(deftemplate Sintoma
+   (slot Tosse)
+   (slot Febre)
+   (slot Presenca_de_Muco)
+   (slot Dor_de_Garganta)
+   (slot Dor_ou_Aperto_no_Peito)
+   (slot Dificuldade_para_Respirar)
+   (slot Chiado_ao_Respirar)
+   (slot Cansaco)
+   (slot Perda_de_Peso))
 
-;; Inicializando doenças, sintomas e tratamentos
-(defrule inicializar-dados
-   =>
-   ;; Doenças
-   (assert (Doenca (nome "Asma")))
-   (assert (Doenca (nome "Enfisema Pulmonar")))
-   (assert (Doenca (nome "Bronquite")))
-   (assert (Doenca (nome "Pneumonia")))
-   (assert (Doenca (nome "Gripe (Influenza)")))
-   (assert (Doenca (nome "Tuberculose")))
-   (assert (Doenca (nome "Fibrose Pulmonar")))
-   (assert (Doenca (nome "Sinusite")))
-   (assert (Doenca (nome "Rinite")))
-   
-   ;; Sintomas
-   (assert (Sintoma (descricao "Tosse")))
-   (assert (Sintoma (descricao "Febre")))
-   (assert (Sintoma (descricao "Presença de Muco")))
-   (assert (Sintoma (descricao "Dor de garganta")))
-   (assert (Sintoma (descricao "Dor/Aperto no peito")))
-   (assert (Sintoma (descricao "Dificuldade para respirar")))
-   (assert (Sintoma (descricao "Chiado ao respirar")))
-   (assert (Sintoma (descricao "Cansaço")))
-   (assert (Sintoma (descricao "Perda de Peso")))
-   
-   ;; Tratamentos
-   (assert (Tratamento (descricao "Antibiótico")))
-   (assert (Tratamento (descricao "Antialérgico")))
-   (assert (Tratamento (descricao "Anti-inflamatório")))
-   (assert (Tratamento (descricao "Broncodilatador")))
-   (assert (Tratamento (descricao "Corticosteróide")))
-   (assert (Tratamento (descricao "Antiviral")))
-   (assert (Tratamento (descricao "Descongestionante")))
-   (assert (Tratamento (descricao "Anti-histaminico"))))
+; Tratamentos
+(deftemplate Tratamento
+   (slot tratamento))
+   ; (slot Antibiotico)
+   ; (slot Antialergico)
+   ; (slot Anti_Inflamatorio)
+   ; (slot Broncodilatador)
+   ; (slot Corticosteroide)
+   ; (slot Antiviral)
+   ; (slot Descongestionante)
+   ; (slot Anti_Histaminico))
 
-;; Base de sintomas associada às doenças
-(defrule associar-sintomas-asma
-   (Doenca (nome "Asma"))
-   =>
-   (assert (sintomas_da_doenca "Asma" (list "Tosse" "Dor/Aperto no peito" "Dificuldade para respirar" "Chiado ao respirar"))))
+; Regras para obter os Sintomas do Paciente
+(defrule ObterSintomaTosse
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você anda tossindo ultimamente? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Tosse ?resposta))))
 
-(defrule associar-sintomas-enfisema
-   (Doenca (nome "Enfisema Pulmonar"))
-   =>
-   (assert (sintomas_da_doenca "Enfisema Pulmonar" (list "Tosse" "Presença de Muco" "Dor/Aperto no peito" "Dificuldade para respirar" "Chiado ao respirar" "Cansaço" "Perda de Peso"))))
+(defrule ObterSintomaFebre
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você está com febre? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Febre ?resposta))))
 
-(defrule associar-sintomas-bronquite
-   (Doenca (nome "Bronquite"))
-   =>
-   (assert (sintomas_da_doenca "Bronquite" (list "Tosse" "Febre" "Presença de Muco" "Dor/Aperto no peito" "Chiado ao respirar"))))
+(defrule ObterSintomaPresencaDeMuco
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você tem presença de muco? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Presenca_de_Muco ?resposta))))
 
-(defrule associar-sintomas-pneumonia
-   (Doenca (nome "Pneumonia"))
-   =>
-   (assert (sintomas_da_doenca "Pneumonia" (list "Tosse" "Febre" "Presença de Muco" "Dor/Aperto no peito"))))
+(defrule ObterSintomaDorDeGarganta
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você está com dor de garganta? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Dor_de_Garganta ?resposta))))
 
-(defrule associar-sintomas-gripe
-   (Doenca (nome "Gripe (Influenza)"))
-   =>
-   (assert (sintomas_da_doenca "Gripe (Influenza)" (list "Tosse" "Febre" "Presença de Muco" "Dor de garganta" "Cansaço"))))
+(defrule ObterSintomaDorOuApertoNoPeito
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você sente dor ou aperto no peito? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Dor_ou_Aperto_no_Peito ?resposta))))
 
-(defrule associar-sintomas-tuberculose
-   (Doenca (nome "Tuberculose"))
-   =>
-   (assert (sintomas_da_doenca "Tuberculose" (list "Tosse" "Febre" "Presença de Muco" "Dor/Aperto no peito" "Cansaço" "Perda de Peso"))))
+(defrule ObterSintomaDificuldadeParaRespirar
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você tem dificuldade para respirar? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Dificuldade_para_Respirar ?resposta))))
 
-(defrule associar-sintomas-fibrose
-   (Doenca (nome "Fibrose Pulmonar"))
-   =>
-   (assert (sintomas_da_doenca "Fibrose Pulmonar" (list "Tosse" "Dificuldade para respirar" "Perda de Peso"))))
+(defrule ObterSintomaChiadoAoRespirar
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você percebe chiado ao respirar? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Chiado_ao_Respirar ?resposta))))
 
-(defrule associar-sintomas-sinusite
-   (Doenca (nome "Sinusite"))
-   =>
-   (assert (sintomas_da_doenca "Sinusite" (list "Tosse" "Febre" "Presença de Muco" "Dificuldade para respirar" "Cansaço"))))
+(defrule ObterSintomaCansaco
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você sente cansaço frequentemente? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Cansaco ?resposta))))
 
-(defrule associar-sintomas-rinite
-   (Doenca (nome "Rinite"))
-   =>
-   (assert (sintomas_da_doenca "Rinite" (list "Tosse" "Presença de Muco" "Dor de garganta" "Cansaço"))))
+(defrule ObterSintomaPerdaDePeso
+	(declare (salience 9))
+	=>
+	(printout t crlf "Você tem tido perda de peso? (yes/no)" crlf crlf)
+	(bind ?resposta (read))
+	(assert (Sintoma (Perda_de_Peso ?resposta))))
 
-;; Base de tratamentos associada às doenças
-(defrule associar-tratamentos-asma
-   (Doenca (nome "Asma"))
-   =>
-   (assert (tratamento_da_doenca "Asma" (list "Anti-inflamatório" "Broncodilatador" "Corticosteróide"))))
 
-(defrule associar-tratamentos-enfisema
-   (Doenca (nome "Enfisema Pulmonar"))
-   =>
-   (assert (tratamento_da_doenca "Enfisema Pulmonar" (list "Broncodilatador" "Corticosteróide"))))
 
-(defrule associar-tratamentos-bronquite
-   (Doenca (nome "Bronquite"))
-   =>
-   (assert (tratamento_da_doenca "Bronquite" (list "Antibiótico" "Anti-inflamatório" "Broncodilatador" "Corticosteróide"))))
+; Regras para descobrir a possível doença
+(defrule Asma
+	(or  (Sintoma(Tosse yes))
+        (Sintoma(Dor_ou_Aperto_no_Peito yes))
+        (Sintoma(Dificuldade_para_Respirar yes))
+        (Sintoma(Chiado_ao_Respirar yes)))
+	=>
+	(assert(Doenca(doenca asma)))
+	(printout t crlf "Possível doença: Asma" crlf))
 
-(defrule associar-tratamentos-pneumonia
-   (Doenca (nome "Pneumonia"))
-   =>
-   (assert (tratamento_da_doenca "Pneumonia" (list "Antibiótico" "Broncodilatador" "Anti-histaminico"))))
+(defrule Enfisema_Pulmonar
+	(or  (Sintoma(Tosse yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_ou_Aperto_no_Peito yes))
+        (Sintoma(Dificuldade_para_Respirar yes))
+        (Sintoma(Chiado_ao_Respirar yes))
+        (Sintoma(Cansaco yes))
+        (Sintoma(Perda_de_Peso yes)))
+	=>
+	(assert(Doenca(doenca enfisema_pulmonar)))
+	(printout t crlf "Possível doença: Enfisema Pulmonar" crlf))
 
-(defrule associar-tratamentos-gripe
-   (Doenca (nome "Gripe (Influenza)"))
-   =>
-   (assert (tratamento_da_doenca "Gripe (Influenza)" (list "Antiviral"))))
+(defrule Bronquite
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Febre yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dor_ou_Aperto_no_Peito yes))
+         (Sintoma(Chiado_ao_Respirar yes)))
+    =>
+    (assert(Doenca(doenca bronquite)))
+    (printout t crlf "Possível doença: Bronquite" crlf))
 
-(defrule associar-tratamentos-tuberculose
-   (Doenca (nome "Tuberculose"))
-   =>
-   (assert (tratamento_da_doenca "Tuberculose" (list "Antibiótico" "Broncodilatador"))))
+(defrule Pneumonia
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Febre yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dor_ou_Aperto_no_Peito yes)))
+    =>
+    (assert(Doenca(doenca pneumonia)))
+    (printout t crlf "Possível doença: Pneumonia" crlf))
 
-(defrule associar-tratamentos-fibrose
-   (Doenca (nome "Fibrose Pulmonar"))
-   =>
-   (assert (tratamento_da_doenca "Fibrose Pulmonar" (list "Anti-inflamatório"))))
+(defrule Gripe_Influenza
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Febre yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dor_de_Garganta yes))
+         (Sintoma(Cansaco yes)))
+    =>
+    (assert(Doenca(doenca gripe_influenza)))
+    (printout t crlf "Possível doença: Gripe (Influenza)" crlf))
 
-(defrule associar-tratamentos-sinusite
-   (Doenca (nome "Sinusite"))
-   =>
-   (assert (tratamento_da_doenca "Sinusite" (list "Antibiótico" "Antialérgico" "Anti-inflamatório" "Corticosteróide" "Anti-histaminico"))))
+(defrule Tuberculose
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Febre yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dor_ou_Aperto_no_Peito yes))
+         (Sintoma(Cansaco yes))
+         (Sintoma(Perda_de_Peso yes)))
+    =>
+    (assert(Doenca(doenca tuberculose)))
+    (printout t crlf "Possível doença: Tuberculose" crlf))
 
-(defrule associar-tratamentos-rinite
-   (Doenca (nome "Rinite"))
-   =>
-   (assert (tratamento_da_doenca "Rinite" (list "Antialérgico" "Descongestionante" "Anti-histaminico"))))
+(defrule Fibrose_Pulmonar
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Dificuldade_para_Respirar yes))
+         (Sintoma(Perda_de_Peso yes)))
+    =>
+    (assert(Doenca(doenca fibrose_pulmonar)))
+    (printout t crlf "Possível doença: Fibrose Pulmonar" crlf))
 
-;; Função para coletar sintomas
-(deffunction coletar-sintomas ()
-   (printout t "Por favor, insira os sintomas do paciente, separados por vírgula:" crlf)
-   (bind ?entrada (readline))
-   (return (explode$ ?entrada ", ")))
+(defrule Sinusite
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Febre yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dificuldade_para_Respirar yes))
+         (Sintoma(Cansaco yes)))
+    =>
+    (assert(Doenca(doenca sinusite)))
+    (printout t crlf "Possível doença: Sinusite" crlf))
 
-;; Regra principal que coleta os sintomas do paciente
-(defrule perguntar-sintomas
-   (declare (salience 100))
-   (not (sintomas-paciente ?))
-   =>
-   (bind ?sintomas (coletar-sintomas))
-   (assert (sintomas-paciente ?sintomas))
-   (printout t "Sintomas coletados: " ?sintomas crlf))
+(defrule Rinite
+    (or  (Sintoma(Tosse yes))
+         (Sintoma(Presenca_de_Muco yes))
+         (Sintoma(Dor_de_Garganta yes))
+         (Sintoma(Cansaco yes)))
+    =>
+    (assert(Doenca(doenca rinite)))
+    (printout t crlf "Possível doença: Rinite" crlf))
 
-;; Regra para perguntar ao paciente se ele quer saber o diagnóstico ou o tratamento
-(defrule perguntar-diagnostico-ou-tratamento
-   (sintomas-paciente ?sintomas)
-   (not (pergunta-diagnostico-ou-tratamento))
-   =>
-   (printout t "Você gostaria de saber o diagnóstico ou os tratamentos? (Digite 'diagnóstico' ou 'tratamento')" crlf)
-   (bind ?resposta (readline))
-   (assert (pergunta-diagnostico-ou-tratamento ?resposta)))
 
-;; Regra para diagnóstico com base nos sintomas
-(defrule diagnosticar-doenca
-   (sintomas-paciente ?sintomas)
-   (pergunta-diagnostico-ou-tratamento "diagnóstico")
-   (sintomas_da_doenca ?doenca ?sintomasDoenca)
-   (test (subset ?sintomas ?sintomasDoenca))
-   =>
-   (printout t "Baseado nos sintomas, a doença provável é: " ?doenca crlf))
 
-;; Regra para tratamento com base nos sintomas
-(defrule sugerir-tratamento
-   (sintomas-paciente ?sintomas)
-   (pergunta-diagnostico-ou-tratamento "tratamento")
-   (sintomas_da_doenca ?doenca ?sintomasDoenca)
-   (tratamento_da_doenca ?doenca ?tratamentos)
-   (test (subset ?sintomas ?sintomasDoenca))
-   =>
-   (printout t "Baseado nos sintomas, os tratamentos recomendados para " ?doenca " são: " ?tratamentos crlf))
+; Regras para definir os tratamentos
+(defrule Antibiotico
+	(or  (Doenca(doenca bronquite)) 
+        (Doenca(doenca pneumonia)) 
+        (Doenca(doenca tuberculose)) 
+        (Doenca(doenca sinusite)))
+	=>
+	(assert(Tratamento(tratamento antibiotico)))
+	(printout t "Tratamento: Antibiótico" crlf))
 
-;; Função para coletar sintomas
-(deffunction coletar-sintomas ()
-   (printout t "Por favor, insira os sintomas do paciente, separados por vírgula:" crlf)
-   (bind ?entrada (readline))
-   (return (explode$ ?entrada ", ")))
+(defrule Antialergico
+	(or  (Doenca(doenca sinusite)) 
+        (Doenca(doenca rinite)))
+	=>
+	(assert(Tratamento(tratamento antialergico)))
+	(printout t "Tratamento: Antialérgico" crlf))
 
-;; Regra principal que coleta os sintomas do paciente
-(defrule perguntar-sintomas
-   (declare (salience 100))
-   (not (sintomas-paciente ?))
-   =>
-   (bind ?sintomas (coletar-sintomas))
-   (assert (sintomas-paciente ?sintomas))
-   (printout t "Sintomas coletados: " ?sintomas crlf))
+(defrule Anti_Inflamatorio
+	(or  (Doenca(doenca asma)) 
+        (Doenca(doenca bronquite)) 
+        (Doenca(doenca fibrose_pulmonar)) 
+        (Doenca(doenca sinusite)))
+	=>
+	(assert(Tratamento(tratamento anti_inflamatorio)))
+	(printout t "Tratamento: Anti-inflamatório" crlf))
 
-;; Regra para perguntar ao paciente se ele quer saber o diagnóstico ou o tratamento
-(defrule perguntar-diagnostico-ou-tratamento
-   (sintomas-paciente ?sintomas)
-   (not (pergunta-diagnostico-ou-tratamento))
-   =>
-   (printout t "Você gostaria de saber o diagnóstico ou os tratamentos? (Digite 'diagnóstico' ou 'tratamento')" crlf)
-   (bind ?resposta (readline))
-   (assert (pergunta-diagnostico-ou-tratamento ?resposta)))
+(defrule Broncodilatador
+	(or  (Doenca(doenca asma)) 
+        (Doenca(doenca enfisema_pulmonar)) 
+        (Doenca(doenca bronquite)) 
+        (Doenca(doenca pneumonia)) 
+        (Doenca(doenca tuberculose)))
+	=>
+	(assert(Tratamento(tratamento broncodilatador)))
+	(printout t "Tratamento: Broncodilatador" crlf))
 
-;; Regra para diagnóstico com base nos sintomas
-(defrule diagnosticar-doenca
-   (sintomas-paciente ?sintomas)
-   (pergunta-diagnostico-ou-tratamento "diagnóstico")
-   (sintomas_da_doenca ?doenca ?sintomasDoenca)
-   (test (subset ?sintomas ?sintomasDoenca))
-   =>
-   (printout t "Baseado nos sintomas, a doença provável é: " ?doenca crlf))
+(defrule Corticosteroide
+	(or  (Doenca(doenca asma)) 
+        (Doenca(doenca enfisema_pulmonar)) 
+        (Doenca(doenca bronquite)) 
+        (Doenca(doenca sinusite)))
+	=>
+	(assert(Tratamento(tratamento corticosteroide)))
+	(printout t "Tratamento: Corticosteróide" crlf))
 
-;; Regra para sugerir tratamentos com base nos sintomas
-(defrule sugerir-tratamento
-   (sintomas-paciente ?sintomas)
-   (pergunta-diagnostico-ou-tratamento "tratamento")
-   (sintomas_da_doenca ?doenca ?sintomasDoenca)
-   (test (subset ?sintomas ?sintomasDoenca))
-   (tratamento_da_doenca ?doenca ?tratamentos)
-   =>
-   (printout t "Tratamentos recomendados para " ?doenca ": " ?tratamentos crlf))
+(defrule Antiviral
+	(Doenca(doenca gripe_influenza))
+	=>
+	(assert(Tratamento(tratamento antiviral)))
+	(printout t "Tratamento: Antiviral" crlf))
 
-;; Função auxiliar para verificar se uma lista é subconjunto de outra
-(deffunction subset (?list1 ?list2)
-   (if (subsetp ?list1 ?list2) then TRUE else FALSE))
+(defrule Anti_Histaminico
+	(or  (Doenca(doenca pneumonia)) 
+        (Doenca(doenca sinusite)) 
+        (Doenca(doenca rinite)))
+	=>
+	(assert(Tratamento(tratamento anti_histaminico)))
+	(printout t "Tratamento: Anti-histamínico" crlf))
 
+(defrule Descongestionante
+	(Doenca(doenca rinite))
+	=>
+	(assert(Tratamento(tratamento descongestionante)))
+	(printout t "Tratamento: Descongestionante" crlf))
+
+(defrule titulo
+  (declare (salience 10))
+  =>
+  (printout t crlf)
+  (printout t "Sistema Especialista - Doenças Respiratórias")
+  (printout t crlf))
