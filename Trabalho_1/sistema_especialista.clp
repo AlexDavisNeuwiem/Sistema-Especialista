@@ -42,68 +42,68 @@
 	=>
 	(printout t crlf "Você anda tossindo ultimamente? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Tosse ?resposta))))
+	(assert(Sintoma(Tosse ?resposta))))
 
 (defrule ObterSintomaFebre
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você está com febre? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Febre ?resposta))))
+	(assert(Sintoma(Febre ?resposta))))
 
 (defrule ObterSintomaPresencaDeMuco
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você tem presença de muco? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Presenca_de_Muco ?resposta))))
+	(assert(Sintoma(Presenca_de_Muco ?resposta))))
 
 (defrule ObterSintomaDorDeGarganta
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você está com dor de garganta? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Dor_de_Garganta ?resposta))))
+	(assert(Sintoma(Dor_de_Garganta ?resposta))))
 
 (defrule ObterSintomaDorOuApertoNoPeito
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você sente dor ou aperto no peito? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Dor_ou_Aperto_no_Peito ?resposta))))
+	(assert(Sintoma(Dor_ou_Aperto_no_Peito ?resposta))))
 
 (defrule ObterSintomaDificuldadeParaRespirar
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você tem dificuldade para respirar? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Dificuldade_para_Respirar ?resposta))))
+	(assert(Sintoma(Dificuldade_para_Respirar ?resposta))))
 
 (defrule ObterSintomaChiadoAoRespirar
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você percebe chiado ao respirar? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Chiado_ao_Respirar ?resposta))))
+	(assert(Sintoma(Chiado_ao_Respirar ?resposta))))
 
 (defrule ObterSintomaCansaco
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você sente cansaço frequentemente? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Cansaco ?resposta))))
+	(assert(Sintoma(Cansaco ?resposta))))
 
 (defrule ObterSintomaPerdaDePeso
 	(declare (salience 9))
 	=>
 	(printout t crlf "Você tem tido perda de peso? (yes/no)" crlf crlf)
 	(bind ?resposta (read))
-	(assert (Sintoma (Perda_de_Peso ?resposta))))
+	(assert(Sintoma(Perda_de_Peso ?resposta))))
 
 
 ; Regras para descobrir a possível doença
 (defrule Asma
-	(or  (Sintoma(Tosse yes))
+	(or (Sintoma(Tosse yes))
         (Sintoma(Dor_ou_Aperto_no_Peito yes))
         (Sintoma(Dificuldade_para_Respirar yes))
         (Sintoma(Chiado_ao_Respirar yes)))
@@ -112,7 +112,7 @@
 	(printout t crlf "Possível doença: Asma" crlf))
 
 (defrule Enfisema_Pulmonar
-	(or  (Sintoma(Tosse yes))
+	(or (Sintoma(Tosse yes))
         (Sintoma(Presenca_de_Muco yes))
         (Sintoma(Dor_ou_Aperto_no_Peito yes))
         (Sintoma(Dificuldade_para_Respirar yes))
@@ -124,76 +124,76 @@
 	(printout t crlf "Possível doença: Enfisema Pulmonar" crlf))
 
 (defrule Bronquite
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Febre yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dor_ou_Aperto_no_Peito yes))
-         (Sintoma(Chiado_ao_Respirar yes)))
-    =>
-    (assert(Doenca(doenca bronquite)))
-    (printout t crlf "Possível doença: Bronquite" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Febre yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_ou_Aperto_no_Peito yes))
+        (Sintoma(Chiado_ao_Respirar yes)))
+        =>
+        (assert(Doenca(doenca bronquite)))
+        (printout t crlf "Possível doença: Bronquite" crlf))
 
 (defrule Pneumonia
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Febre yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dor_ou_Aperto_no_Peito yes)))
-    =>
-    (assert(Doenca(doenca pneumonia)))
-    (printout t crlf "Possível doença: Pneumonia" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Febre yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_ou_Aperto_no_Peito yes)))
+        =>
+        (assert(Doenca(doenca pneumonia)))
+        (printout t crlf "Possível doença: Pneumonia" crlf))
 
 (defrule Gripe_Influenza
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Febre yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dor_de_Garganta yes))
-         (Sintoma(Cansaco yes)))
-    =>
-    (assert(Doenca(doenca gripe_influenza)))
-    (printout t crlf "Possível doença: Gripe (Influenza)" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Febre yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_de_Garganta yes))
+        (Sintoma(Cansaco yes)))
+        =>
+        (assert(Doenca(doenca gripe_influenza)))
+        (printout t crlf "Possível doença: Gripe (Influenza)" crlf))
 
 (defrule Tuberculose
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Febre yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dor_ou_Aperto_no_Peito yes))
-         (Sintoma(Cansaco yes))
-         (Sintoma(Perda_de_Peso yes)))
-    =>
-    (assert(Doenca(doenca tuberculose)))
-    (printout t crlf "Possível doença: Tuberculose" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Febre yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_ou_Aperto_no_Peito yes))
+        (Sintoma(Cansaco yes))
+        (Sintoma(Perda_de_Peso yes)))
+        =>
+        (assert(Doenca(doenca tuberculose)))
+        (printout t crlf "Possível doença: Tuberculose" crlf))
 
 (defrule Fibrose_Pulmonar
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Dificuldade_para_Respirar yes))
-         (Sintoma(Perda_de_Peso yes)))
-    =>
-    (assert(Doenca(doenca fibrose_pulmonar)))
-    (printout t crlf "Possível doença: Fibrose Pulmonar" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Dificuldade_para_Respirar yes))
+        (Sintoma(Perda_de_Peso yes)))
+        =>
+        (assert(Doenca(doenca fibrose_pulmonar)))
+        (printout t crlf "Possível doença: Fibrose Pulmonar" crlf))
 
 (defrule Sinusite
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Febre yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dificuldade_para_Respirar yes))
-         (Sintoma(Cansaco yes)))
-    =>
-    (assert(Doenca(doenca sinusite)))
-    (printout t crlf "Possível doença: Sinusite" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Febre yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dificuldade_para_Respirar yes))
+        (Sintoma(Cansaco yes)))
+        =>
+        (assert(Doenca(doenca sinusite)))
+        (printout t crlf "Possível doença: Sinusite" crlf))
 
 (defrule Rinite
-    (or  (Sintoma(Tosse yes))
-         (Sintoma(Presenca_de_Muco yes))
-         (Sintoma(Dor_de_Garganta yes))
-         (Sintoma(Cansaco yes)))
-    =>
-    (assert(Doenca(doenca rinite)))
-    (printout t crlf "Possível doença: Rinite" crlf))
+        (or (Sintoma(Tosse yes))
+        (Sintoma(Presenca_de_Muco yes))
+        (Sintoma(Dor_de_Garganta yes))
+        (Sintoma(Cansaco yes)))
+        =>
+        (assert(Doenca(doenca rinite)))
+        (printout t crlf "Possível doença: Rinite" crlf))
 
 
 ; Regras para definir os tratamentos
 (defrule Antibiotico
-	(or  (Doenca(doenca bronquite)) 
+	(or (Doenca(doenca bronquite)) 
         (Doenca(doenca pneumonia)) 
         (Doenca(doenca tuberculose)) 
         (Doenca(doenca sinusite)))
@@ -202,14 +202,14 @@
 	(printout t "Tratamento: Antibiótico" crlf))
 
 (defrule Antialergico
-	(or  (Doenca(doenca sinusite)) 
+	(or (Doenca(doenca sinusite)) 
         (Doenca(doenca rinite)))
 	=>
 	(assert(Tratamento(tratamento antialergico)))
 	(printout t "Tratamento: Antialérgico" crlf))
 
 (defrule Anti_Inflamatorio
-	(or  (Doenca(doenca asma)) 
+	(or (Doenca(doenca asma)) 
         (Doenca(doenca bronquite)) 
         (Doenca(doenca fibrose_pulmonar)) 
         (Doenca(doenca sinusite)))
@@ -218,7 +218,7 @@
 	(printout t "Tratamento: Anti-inflamatório" crlf))
 
 (defrule Broncodilatador
-	(or  (Doenca(doenca asma)) 
+	(or (Doenca(doenca asma)) 
         (Doenca(doenca enfisema_pulmonar)) 
         (Doenca(doenca bronquite)) 
         (Doenca(doenca pneumonia)) 
@@ -228,7 +228,7 @@
 	(printout t "Tratamento: Broncodilatador" crlf))
 
 (defrule Corticosteroide
-	(or  (Doenca(doenca asma)) 
+	(or (Doenca(doenca asma)) 
         (Doenca(doenca enfisema_pulmonar)) 
         (Doenca(doenca bronquite)) 
         (Doenca(doenca sinusite)))
@@ -243,7 +243,7 @@
 	(printout t "Tratamento: Antiviral" crlf))
 
 (defrule Anti_Histaminico
-	(or  (Doenca(doenca pneumonia)) 
+	(or (Doenca(doenca pneumonia)) 
         (Doenca(doenca sinusite)) 
         (Doenca(doenca rinite)))
 	=>
@@ -258,8 +258,8 @@
 
 ; Título
 (defrule titulo
-  (declare (salience 10))
-  =>
-  (printout t crlf)
-  (printout t "Sistema Especialista - Doenças Respiratórias")
-  (printout t crlf))
+        (declare (salience 10))
+        =>
+        (printout t crlf)
+        (printout t "Sistema Especialista - Doenças Respiratórias")
+        (printout t crlf))
